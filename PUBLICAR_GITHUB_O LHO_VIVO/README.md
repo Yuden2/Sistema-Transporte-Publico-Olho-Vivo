@@ -6,7 +6,7 @@ O sistema utiliza dados GTFS e a API Olho Vivo da SPTrans para identificar ponto
 
 ## Arquivos do projeto
 
-- `Sistema_Transporte_Olho_Vivo_ENTREGA_ATUALIZADO.ipynb` — notebook principal com o código, processamento dos dados e visualização.
+- `Sistema_Transporte_Olho_Vivo_ENTREGA_ATUALIZADO.ipynb` — notebook principal com o código, processamento dos dados e visualização. 
 - `_gtfs.zip` — base de dados GTFS utilizada pelo projeto.
 - `requirements.txt` — bibliotecas necessárias para execução.
 
