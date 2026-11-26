@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1480" viewBox="0 0 900 1480">
+  <defs>
+    <marker id="seta" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334b63"/>
+    </marker>
+    <style>
+      .titulo{font:700 30px Arial,sans-serif;fill:#19324d}
+      .texto{font:20px Arial,sans-serif;fill:#233447}
+      .sub{font:16px Arial,sans-serif;fill:#42566b}
+      .caixa{fill:#f3f6fa;stroke:#334b63;stroke-width:2.5}
+      .linha{stroke:#334b63;stroke-width:2.5;fill:none;marker-end:url(#seta)}
+      .decisao{fill:#fff8e8;stroke:#a97920;stroke-width:2.5}
+    </style>
+  </defs>
+  <rect width="900" height="1480" fill="#ffffff"/>
+  <text x="450" y="54" text-anchor="middle" class="titulo">Sistema de Recomendação de Transporte Público</text>
+  <rect x="250" y="95" width="400" height="72" rx="20" class="caixa"/>
+  <text x="450" y="139" text-anchor="middle" class="texto">Início</text>
+  <path d="M450 167 V205" class="linha"/>
+  <rect x="190" y="210" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="250" text-anchor="middle" class="texto">Informar origem e destino</text>
+  <text x="450" y="280" text-anchor="middle" class="sub">Endereços, coordenadas ou seleção no mapa</text>
+  <path d="M450 310 V350" class="linha"/>
+  <rect x="190" y="355" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="395" text-anchor="middle" class="texto">Validar coordenadas e raio</text>
+  <text x="450" y="425" text-anchor="middle" class="sub">Raio configurável entre 1 e 1.000 metros</text>
+  <path d="M450 455 V495" class="linha"/>
+  <rect x="190" y="500" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="540" text-anchor="middle" class="texto">Carregar GTFS e autenticar na Olho Vivo</text>
+  <text x="450" y="570" text-anchor="middle" class="sub">Linhas, viagens, paradas, horários e formas</text>
+  <path d="M450 600 V640" class="linha"/>
+  <rect x="190" y="645" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="685" text-anchor="middle" class="texto">Buscar paradas próximas</text>
+  <text x="450" y="715" text-anchor="middle" class="sub">Cálculo de distância pela fórmula de Haversine</text>
+  <path d="M450 745 V785" class="linha"/>
+  <rect x="190" y="790" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="830" text-anchor="middle" class="texto">Identificar viagens diretas</text>
+  <text x="450" y="860" text-anchor="middle" class="sub">Mesmo trip_id e embarque antes do desembarque</text>
+  <path d="M450 890 V930" class="linha"/>
+  <polygon points="450,935 640,1010 450,1085 260,1010" class="decisao"/>
+  <text x="450" y="1005" text-anchor="middle" class="texto">Existe opção direta?</text>
+  <text x="450" y="1034" text-anchor="middle" class="sub">Dentro do raio escolhido</text>
+  <path d="M640 1010 H790 V1140" class="linha"/>
+  <text x="700" y="995" class="sub">Não</text>
+  <rect x="650" y="1145" width="220" height="88" rx="16" class="decisao"/>
+  <text x="760" y="1180" text-anchor="middle" class="sub">Informar que não</text>
+  <text x="760" y="1205" text-anchor="middle" class="sub">há viagem direta</text>
+  <path d="M450 1085 V1125" class="linha"/>
+  <text x="470" y="1112" class="sub">Sim</text>
+  <rect x="190" y="1130" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="1170" text-anchor="middle" class="texto">Selecionar linha e consultar a API</text>
+  <text x="450" y="1200" text-anchor="middle" class="sub">Previsão e posição dos veículos, quando disponíveis</text>
+  <path d="M450 1230 V1270" class="linha"/>
+  <rect x="190" y="1275" width="520" height="100" rx="18" class="caixa"/>
+  <text x="450" y="1315" text-anchor="middle" class="texto">Gerar mapa e apresentar resultado</text>
+  <text x="450" y="1345" text-anchor="middle" class="sub">Traçado do shapes.txt, embarque, desembarque e paradas</text>
+  <text x="450" y="1435" text-anchor="middle" class="sub">Fim</text>
+</svg>

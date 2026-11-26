@@ -1,51 +1,61 @@
-# Sistema de Transporte Público — API Olho Vivo
+# Sistema de Recomendação de Transporte Público
 
-Projeto acadêmico desenvolvido em Python e Jupyter Notebook para recomendar viagens diretas de ônibus na cidade de São Paulo.
+Projeto em Python/Jupyter para encontrar uma viagem direta entre dois locais, usando GTFS e API Olho Vivo da SPTrans.
 
-O sistema utiliza dados GTFS e a API Olho Vivo da SPTrans para identificar pontos próximos, localizar linhas que atendem à viagem e consultar previsões de chegada dos veículos, quando disponíveis.
+## Arquivos
 
-## Arquivos do projeto
+- `notebooks/sistema_recomendacao.ipynb`: notebook principal, com o código do sistema.
+- `dados/gtfs_sptrans.zip`: base GTFS utilizada.
+- `mapas/`: local onde o mapa final será salvo.
+- `.env.example`: modelo para configurar o token.
+- `requirements.txt`: bibliotecas necessárias.
+- `fluxograma.svg`: fluxo de funcionamento.
 
-- `Sistema_Transporte_Olho_Vivo_ENTREGA_ATUALIZADO.ipynb` — notebook principal com o código, processamento dos dados e visualização.
-- `_gtfs.zip` — base de dados GTFS utilizada pelo projeto.
-- `requirements.txt` — bibliotecas necessárias para execução.
+## 1. Preparar o ambiente no Windows
 
-## Funcionalidades
+Instale o Python 3.10 ou superior e o Visual Studio Code com a extensão **Python** e **Jupyter**. Abra a pasta do projeto no VS Code.
 
-- Validação das coordenadas de origem e destino.
-- Identificação de pontos de ônibus próximos.
-- Busca de linhas e trajetos diretos, sem baldeação.
-- Cálculo de distâncias entre os pontos.
-- Identificação dos pontos de embarque e desembarque.
-- Consulta à previsão de chegada pela API Olho Vivo.
-- Visualização do trajeto em mapa interativo.
-- Tratamento de erros e situações sem resultados.
+No terminal do VS Code, execute: 
 
-## API Olho Vivo
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-O projeto utiliza a API Olho Vivo da SPTrans. Para consultar as previsões, é necessário informar um token válido.
+Se o PowerShell bloquear a ativação do ambiente, use o terminal `Command Prompt` e execute `.venv\Scripts\activate.bat`.
 
-O token deve ser inserido durante a execução do notebook e **não deve ser publicado no GitHub**.
+## 2. Configurar o token
 
-A consulta de previsão depende da disponibilidade de correspondência entre os pontos do GTFS e os códigos oficiais de parada retornados pela API. Algumas paradas podem não estar disponíveis na consulta da categoria Paradas.
+Copie `.env.example`, renomeie a cópia para `.env` e coloque o token da sua aplicação SPTrans: 
 
-## Como executar
+```text
+SPTRANS_TOKEN=SEU_TOKEN
+```
 
-1. Baixe ou clone este repositório.
-2. Instale as dependências:
+Não use aspas. Não envie o `.env` ao GitHub. O `.gitignore` já está preparado para ignorá-lo.
 
-   `pip install -r requirements.txt`
+## 3. Executar no VS Code
 
-3. Abra o notebook no Jupyter.
-4. Execute as células na ordem apresentada.
-5. Quando solicitado, informe o token da API Olho Vivo.
+1. Abra `notebooks/sistema_recomendacao.ipynb`.
+2. No canto superior direito, selecione o kernel Python do ambiente `.venv`.
+3. Execute as células na ordem.
+4. Na seção de seleção, escolha **Origem** e clique no mapa. Depois escolha **Destino** e clique no segundo local.
+5. Execute a célula seguinte para obter a recomendação e o mapa final.
 
-## Tecnologias utilizadas
+Para usar endereços em vez do mapa, altere `MODO_ENTRADA` para `endereco` e edite `ENDERECO_ORIGEM` e `ENDERECO_DESTINO`. Para digitar coordenadas, use `MODO_ENTRADA = "coordenadas"` e preencha as duas variáveis de coordenadas.
 
-- Python
-- Jupyter Notebook
-- Pandas
-- Requests
-- Folium
-- GTFS
-- API Olho Vivo — SPTrans
+O raio padrão é 500 metros. Pode ser alterado em `RAIO_BUSCA_METROS`, respeitando o intervalo de 1 a 1.000 metros.
+
+## 4. Resultado
+
+O notebook mostra a linha, o sentido, o embarque, o desembarque, as paradas intermediárias, as distâncias e a previsão quando a API disponibilizar o ponto correspondente. O mapa é exibido no notebook e salvo em `mapas/rota_recomendada.html`.
+
+O traçado é retirado de `shapes.txt`. Se a forma não corresponder ao trecho na direção correta, o sistema não desenha um percurso aproximado como se fosse o real.
+
+## 5. Limitações da API
+
+A API Olho Vivo documenta a busca de linhas, paradas, previsão e posição dos veículos. A documentação informa que a categoria de paradas contempla atualmente apenas pontos de corredores. Por isso, uma linha pode ser localizada e ainda assim a previsão ficar indisponível quando o ponto de embarque não tiver correspondência na API. Nesse caso, o notebook informa que a previsão está indisponível.
+
+Documentação: https://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api/
