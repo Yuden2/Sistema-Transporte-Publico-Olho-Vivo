@@ -1,61 +1,50 @@
 # Sistema de Recomendação de Transporte Público
 
-Projeto em Python/Jupyter para encontrar uma viagem direta entre dois locais, usando GTFS e API Olho Vivo da SPTrans.
+Projeto em Python/Jupyter para localizar uma viagem direta de ônibus em São Paulo usando a base GTFS e a API Olho Vivo da SPTrans.
 
 ## Arquivos
 
-- `notebooks/sistema_recomendacao.ipynb`: notebook principal, com o código do sistema.
-- `dados/gtfs_sptrans.zip`: base GTFS utilizada.
-- `mapas/`: local onde o mapa final será salvo.
-- `.env.example`: modelo para configurar o token.
+- `notebooks/sistema_recomendacao.ipynb`: notebook principal.
+- `dados/gtfs_sptrans.zip`: base GTFS fornecida para o projeto.
+- `mapas/`: pasta onde o notebook salva o mapa final em HTML.
 - `requirements.txt`: bibliotecas necessárias.
-- `fluxograma.svg`: fluxo de funcionamento.
+- `.env.example`: modelo do token da API.
+- `fluxograma.svg`: fluxograma do algoritmo.
 
-## 1. Preparar o ambiente no Windows
+## Preparar no Windows / VS Code
 
-Instale o Python 3.10 ou superior e o Visual Studio Code com a extensão **Python** e **Jupyter**. Abra a pasta do projeto no VS Code.
-
-No terminal do VS Code, execute: 
+1. Extraia o ZIP e abra a pasta do projeto no VS Code.
+2. No terminal do VS Code, execute:
 
 ```powershell
 py -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Se o PowerShell bloquear a ativação do ambiente, use o terminal `Command Prompt` e execute `.venv\Scripts\activate.bat`.
-
-## 2. Configurar o token
-
-Copie `.env.example`, renomeie a cópia para `.env` e coloque o token da sua aplicação SPTrans: 
+3. Copie `.env.example`, renomeie a cópia para `.env` e informe um token novo da SPTrans:
 
 ```text
 SPTRANS_TOKEN=SEU_TOKEN
 ```
 
-Não use aspas. Não envie o `.env` ao GitHub. O `.gitignore` já está preparado para ignorá-lo.
+4. Abra `notebooks/sistema_recomendacao.ipynb`, selecione o kernel `.venv` e execute as células de cima para baixo.
 
-## 3. Executar no VS Code
+## Como usar
 
-1. Abra `notebooks/sistema_recomendacao.ipynb`.
-2. No canto superior direito, selecione o kernel Python do ambiente `.venv`.
-3. Execute as células na ordem.
-4. Na seção de seleção, escolha **Origem** e clique no mapa. Depois escolha **Destino** e clique no segundo local.
-5. Execute a célula seguinte para obter a recomendação e o mapa final.
+Na seção de entrada, escolha endereço, coordenadas ou seleção no mapa. O controle **Raio (m)** começa em 500 e permite escolher qualquer valor entre 1 e 1.000 metros. Depois execute a seção de recomendação.
 
-Para usar endereços em vez do mapa, altere `MODO_ENTRADA` para `endereco` e edite `ENDERECO_ORIGEM` e `ENDERECO_DESTINO`. Para digitar coordenadas, use `MODO_ENTRADA = "coordenadas"` e preencha as duas variáveis de coordenadas.
+O programa procura uma viagem da mesma linha e viagem GTFS, verifica a ordem das paradas e usa `shapes.txt` para desenhar o trecho geográfico no sentido correto. O mapa final é exibido no notebook e salvo em `mapas/rota_recomendada.html`.
 
-O raio padrão é 500 metros. Pode ser alterado em `RAIO_BUSCA_METROS`, respeitando o intervalo de 1 a 1.000 metros.
+A recomendação estática vem do GTFS. A confirmação operacional, as posições e as previsões são consultadas na API. A previsão só é mostrada quando a API retorna uma parada oficial compatível; nenhum horário é inventado.
 
-## 4. Resultado
+## Token
 
-O notebook mostra a linha, o sentido, o embarque, o desembarque, as paradas intermediárias, as distâncias e a previsão quando a API disponibilizar o ponto correspondente. O mapa é exibido no notebook e salvo em `mapas/rota_recomendada.html`.
+O arquivo `.env` não deve ser enviado ao GitHub. O `.gitignore` já o exclui. Como credenciais compartilhadas em conversas devem ser consideradas expostas, revogue o token anterior e use um novo gerado no portal SPTrans.
 
-O traçado é retirado de `shapes.txt`. Se a forma não corresponder ao trecho na direção correta, o sistema não desenha um percurso aproximado como se fosse o real.
+## Observação sobre as paradas da API
 
-## 5. Limitações da API
-
-A API Olho Vivo documenta a busca de linhas, paradas, previsão e posição dos veículos. A documentação informa que a categoria de paradas contempla atualmente apenas pontos de corredores. Por isso, uma linha pode ser localizada e ainda assim a previsão ficar indisponível quando o ponto de embarque não tiver correspondência na API. Nesse caso, o notebook informa que a previsão está indisponível.
+A documentação oficial informa que a busca de paradas da Olho Vivo contempla atualmente apenas paradas de corredores. Assim, pode existir uma linha GTFS válida sem correspondência de parada oficial para previsão. Nessa situação, o sistema mantém o resultado GTFS identificado como tal e informa que a previsão está indisponível.
 
 Documentação: https://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api/
